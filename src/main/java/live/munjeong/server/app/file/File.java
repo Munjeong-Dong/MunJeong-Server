@@ -41,7 +41,7 @@ public class File extends BaseEntity{
     //파일 사이즈
     private Long size;
 
-    public File(UpLoadFile upLoadFile) {
+    public File(UploadFile upLoadFile) {
         this.originNm = upLoadFile.getUploadNm();
         this.extensions = upLoadFile.getExtension().toLowerCase();
         this.size = upLoadFile.getSize();

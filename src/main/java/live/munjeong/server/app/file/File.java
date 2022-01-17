@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,13 +16,15 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @ToString(callSuper = true)
-@SequenceGenerator(
-        name = "FILE_SEQ",
+@TableGenerator(
+        name = "FILE_SEQ_GENERATOR",
+        table = "TB_SEQUENCES",
+        pkColumnValue = "FILE_SEQ",
         allocationSize = 1)
 @Entity
 public class File extends BaseEntity {
     @Id
-    @GeneratedValue(generator = "FILE_SEQ", strategy = GenerationType.TABLE)
+    @GeneratedValue(generator = "FILE_SEQ_GENERATOR", strategy = GenerationType.TABLE)
     @Column(name = "file_id", nullable = false)
     private Long id;
 
@@ -45,6 +48,17 @@ public class File extends BaseEntity {
 
     //파일 사이즈
     private Long size;
+
+    public File(String originNm, long size) {
+        this.originNm = originNm;
+        String extension = StringUtils.getFilenameExtension(originNm);
+        this.extensions = extension == null? null : extension.toLowerCase();
+        this.size = size;
+        this.fileType = FileType.getFileType(extensions);
+
+        this.storageNm = UUID.randomUUID().toString();
+        this.storagePath = fileType.toString() + LocalDate.now().format(DateTimeFormatter.ofPattern("/yyyy/MM/dd/"));
+    }
 
     public File(UploadFile upLoadFile) {
         this.originNm = upLoadFile.getUploadNm();

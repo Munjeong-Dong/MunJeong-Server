@@ -88,10 +88,10 @@ public class SessionUtil {
      * 세션에서 사용자 이름을 가져온다. (없으면 null)
      * @return String 사용자 이름
      */
-    public static String getUserNm() {
+    public static String getNm() {
         LoginVO loginVO = getLoginVO();
         if(loginVO == null) return null;
-        return loginVO.getUserNm();
+        return loginVO.getNm();
     }
 
     /**

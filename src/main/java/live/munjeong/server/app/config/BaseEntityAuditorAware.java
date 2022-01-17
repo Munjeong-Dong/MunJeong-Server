@@ -17,6 +17,6 @@ public class BaseEntityAuditorAware implements AuditorAware<String> {
     public Optional<String> getCurrentAuditor() {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if(requestAttributes == null) return Optional.of(Constant.SYSTEM);
-        return Optional.ofNullable(SessionUtil.getUserNm());
+        return Optional.ofNullable(SessionUtil.getNm());
     }
 }

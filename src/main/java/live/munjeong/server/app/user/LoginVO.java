@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class LoginVO {
-    private String userNm;
+    private String nm;
 }

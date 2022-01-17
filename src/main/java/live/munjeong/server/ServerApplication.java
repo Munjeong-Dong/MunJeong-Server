@@ -2,7 +2,10 @@ package live.munjeong.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.repository.config.BootstrapMode;
 
+@EnableJpaRepositories(bootstrapMode = BootstrapMode.DEFERRED)
 @SpringBootApplication
 public class ServerApplication {
 

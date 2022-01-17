@@ -1,4 +1,4 @@
-package live.munjeong.server.app.file;
+package live.munjeong.server.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,9 +18,10 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public abstract class BaseEntity {
     @CreatedDate
+    @Column(updatable = false)
     private LocalDateTime createdDate;
     @CreatedBy
-    @Column(columnDefinition = "varchar(255) default 'SYSTEM'")
+    @Column(columnDefinition = "varchar(255) default 'SYSTEM'", updatable=false)
     private String createBy;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;

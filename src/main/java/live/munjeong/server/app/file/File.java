@@ -1,5 +1,6 @@
 package live.munjeong.server.app.file;
 
+import live.munjeong.server.app.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,10 +14,14 @@ import java.util.UUID;
 @Setter
 @Getter
 @NoArgsConstructor
-@ToString
+@ToString(callSuper = true)
+@SequenceGenerator(
+        name = "FILE_SEQ",
+        allocationSize = 1)
 @Entity
-public class File extends BaseEntity{
+public class File extends BaseEntity {
     @Id
+    @GeneratedValue(generator = "FILE_SEQ", strategy = GenerationType.TABLE)
     @Column(name = "file_id", nullable = false)
     private Long id;
 

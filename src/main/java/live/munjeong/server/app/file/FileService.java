@@ -18,12 +18,22 @@ public class FileService {
 
     private final FileStore fileStore;
 
+    /**
+     * 파일을 실제로 저장 후 DB 에도 저장
+     * @param uploadFile controller에서 넘어온 MultipartFile객체
+     * @return File
+     * @throws IOException
+     */
     public File upload(MultipartFile uploadFile) throws IOException {
         log.debug("uploadFile : " + uploadFile);
         File file = fileStore.storeFile(uploadFile);
         return fileRepository.save(file);
     }
 
+    /**
+     * 파일을 실제로 삭제 후 DB 에도 삭제
+     * @param fileId file의 pk
+     */
     public void delete(Long fileId) {
         log.debug("deleteFile fileId [{}] ", fileId);
         Optional<File> file = fileRepository.findById(fileId);

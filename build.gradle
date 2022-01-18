@@ -27,7 +27,7 @@ dependencies {
     implementation group: 'com.querydsl', name: 'querydsl-jpa'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
-
+    implementation 'commons-fileupload:commons-fileupload:1.4'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     runtimeOnly 'com.h2database:h2:2.0.206'

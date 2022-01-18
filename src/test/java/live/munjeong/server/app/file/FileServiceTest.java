@@ -26,13 +26,7 @@ class FileServiceTest {
     @DisplayName("파일 서비스 upload 테스트")
     void uploadTest() {
         //given
-        UploadFile uploadFile = new UploadFile("test1.jpg", 100L);
-        File returnFile = new File(uploadFile);
-        when(fileRepository.save(any()))
-                .thenReturn(returnFile);
 
-        //when, then
-        fileService.upload(uploadFile);
 
     }
 }

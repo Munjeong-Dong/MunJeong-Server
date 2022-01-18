@@ -1,6 +1,7 @@
 package live.munjeong.server.app.file;
 
 import live.munjeong.server.app.entity.BaseEntity;
+import live.munjeong.server.app.util.DirectoryPathUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,8 +9,6 @@ import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Setter
@@ -34,8 +33,8 @@ public class File extends BaseEntity {
     private String storageNm;
     /**
      *  저장 파일 위치
-     *  파일 타입 / 년 / 월 / 일 / UUID
-     *  ex ) 2022년 1월 14일 test.jpg -> IMAGE/2022/01/14/uuid
+     *  root(file.dir) / 파일 타입 / 년 / 월 / 일 /
+     *  ex ) 2022년 1월 14일 test.jpg -> root/IMAGE/2022/01/14/
      */
     private String storagePath;
 
@@ -57,7 +56,7 @@ public class File extends BaseEntity {
         this.fileType = FileType.getFileType(extensions);
 
         this.storageNm = UUID.randomUUID().toString();
-        this.storagePath = fileType.toString() + LocalDate.now().format(DateTimeFormatter.ofPattern("/yyyy/MM/dd/"));
+        this.storagePath = DirectoryPathUtil.addTodayDirectoryPath(fileType.toString());
     }
 
     public File(UploadFile upLoadFile) {
@@ -67,6 +66,6 @@ public class File extends BaseEntity {
         this.fileType = FileType.getFileType(extensions);
 
         this.storageNm = UUID.randomUUID().toString();
-        this.storagePath = fileType.toString() + LocalDate.now().format(DateTimeFormatter.ofPattern("/yyyy/MM/dd/"));
+        this.storagePath = DirectoryPathUtil.addTodayDirectoryPath(fileType.toString());
     }
 }

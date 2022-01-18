@@ -1,27 +1,29 @@
 package live.munjeong.server.app.file;
 
 import live.munjeong.server.app.entity.BaseEntity;
+import live.munjeong.server.app.util.DirectoryPathUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @ToString(callSuper = true)
-@SequenceGenerator(
-        name = "FILE_SEQ",
+@TableGenerator(
+        name = "FILE_SEQ_GENERATOR",
+        table = "TB_SEQUENCES",
+        pkColumnValue = "FILE_SEQ",
         allocationSize = 1)
 @Entity
 public class File extends BaseEntity {
     @Id
-    @GeneratedValue(generator = "FILE_SEQ", strategy = GenerationType.TABLE)
+    @GeneratedValue(generator = "FILE_SEQ_GENERATOR", strategy = GenerationType.TABLE)
     @Column(name = "file_id", nullable = false)
     private Long id;
 
@@ -31,8 +33,8 @@ public class File extends BaseEntity {
     private String storageNm;
     /**
      *  저장 파일 위치
-     *  파일 타입 / 년 / 월 / 일 / UUID
-     *  ex ) 2022년 1월 14일 test.jpg -> IMAGE/2022/01/14/uuid
+     *  root(file.dir) / 파일 타입 / 년 / 월 / 일 /
+     *  ex ) 2022년 1월 14일 test.jpg -> root/IMAGE/2022/01/14/
      */
     private String storagePath;
 
@@ -46,6 +48,17 @@ public class File extends BaseEntity {
     //파일 사이즈
     private Long size;
 
+    public File(String originNm, long size) {
+        this.originNm = originNm;
+        String extension = StringUtils.getFilenameExtension(originNm);
+        this.extensions = extension == null? null : extension.toLowerCase();
+        this.size = size;
+        this.fileType = FileType.getFileType(extensions);
+
+        this.storageNm = UUID.randomUUID().toString();
+        this.storagePath = DirectoryPathUtil.addTodayDirectoryPath(fileType.toString());
+    }
+
     public File(UploadFile upLoadFile) {
         this.originNm = upLoadFile.getUploadNm();
         this.extensions = upLoadFile.getExtension().toLowerCase();
@@ -53,6 +66,6 @@ public class File extends BaseEntity {
         this.fileType = FileType.getFileType(extensions);
 
         this.storageNm = UUID.randomUUID().toString();
-        this.storagePath = fileType.toString() + LocalDate.now().format(DateTimeFormatter.ofPattern("/yyyy/MM/dd/"));
+        this.storagePath = DirectoryPathUtil.addTodayDirectoryPath(fileType.toString());
     }
 }

@@ -3,11 +3,13 @@ package live.munjeong.server.app.file;
 import live.munjeong.server.app.file.valid.FileExtension;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
+@ToString
 @Getter
 @Setter
 public class UploadFile {

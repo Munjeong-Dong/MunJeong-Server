@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -52,7 +54,14 @@ public class FileStore {
         long size = multipartFile.getSize();
         File file = new File(originNm, size);
 
-        multipartFile.transferTo(getRealFile(file));
+        java.io.File realFile = getRealFile(file);
+
+        if(!existParentDirectory(file)) {
+            Path path = realFile.getParentFile().toPath();
+            Files.createDirectories(path);
+        }
+
+        multipartFile.transferTo(realFile);
         return file;
     }
 
@@ -61,7 +70,7 @@ public class FileStore {
      */
     public boolean deleteFile(File file) {
         if(file == null) {
-            log.error("delete file is null!!");
+            log.info("delete file is null!!");
             return false;
         }
         log.debug("deleteFile FileId [{}]", file.getId());
@@ -75,12 +84,29 @@ public class FileStore {
      * @return String
      */
     public String getFullPath(File file) {
+        return getParentDirectory(file) + file.getStorageNm();
+    }
+
+    /**
+     * 파일을 저장할 디렉토리 경로를 가져온다.
+     * @return String
+     */
+    public String getParentDirectory(File file) {
         if( !StringUtils.hasText(file.getStoragePath())
                 || !StringUtils.hasText(file.getStorageNm())) {
             throw new NoSuchElementException("파일을 찾을 수 없습니다.");
         }
-        return fileDir + separator + file.getStoragePath() + file.getStorageNm();
+        return fileDir + separator + file.getStoragePath();
     }
+
+    /**
+     * 파일을 저장할 디렉토리 경로를 가져온다.
+     * @return String
+     */
+    public boolean existParentDirectory(File file) {
+        return new java.io.File(getParentDirectory(file)).exists();
+    }
+
 
     public java.io.File getRealFile(File file) {
         return new java.io.File(getFullPath(file));

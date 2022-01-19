@@ -1,4 +1,4 @@
-package live.munjeong.server.app.entity;
+package live.munjeong.server.app.common;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,15 +21,12 @@ public abstract class BaseEntity {
     @Column(updatable = false)
     private LocalDateTime createdDate;
     @CreatedBy
-    @Column(columnDefinition = "varchar(255) default 'SYSTEM'", updatable=false)
+    @Column(updatable=false)
     private String createBy;
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
     @LastModifiedBy
-    @Column(columnDefinition = "varchar(255) default 'SYSTEM'")
     private String lastModifiedBy;
-    @Column(columnDefinition = "varchar(1) default 'Y'")
-    private char useYn;
-    @Column(columnDefinition = "varchar(1) default 'N'")
-    private char delYn;
+    @Column(columnDefinition = "boolean default true")
+    private Boolean useYn = true;
 }

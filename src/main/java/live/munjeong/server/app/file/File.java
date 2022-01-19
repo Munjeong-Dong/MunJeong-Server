@@ -1,6 +1,6 @@
 package live.munjeong.server.app.file;
 
-import live.munjeong.server.app.entity.BaseEntity;
+import live.munjeong.server.app.common.BaseEntity;
 import live.munjeong.server.app.util.DirectoryPathUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

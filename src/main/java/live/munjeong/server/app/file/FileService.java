@@ -7,7 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,14 +22,14 @@ public class FileService {
 
     /**
      * 파일을 실제로 저장 후 DB 에도 저장
-     * @param uploadFile controller에서 넘어온 MultipartFile객체
-     * @return File
-     * @throws IOException
+     * @param uploadFiles controller에서 넘어온 MultipartFile 리스트
+     * @return List<Long> 저장된 파일의 키값들
+     * @throws IOException IO에러
      */
-    public File upload(MultipartFile uploadFile) throws IOException {
-        log.debug("uploadFile : " + uploadFile);
-        File file = fileStore.storeFile(uploadFile);
-        return fileRepository.save(file);
+    public List<Long> upload(List<MultipartFile> uploadFiles) throws IOException {
+        List<File> storeFiles = fileStore.storeFiles(uploadFiles);
+        List<File> files = fileRepository.saveAll(storeFiles);
+        return files.stream().map(File::getId).collect(Collectors.toList());
     }
 
     /**
@@ -39,6 +41,10 @@ public class FileService {
         Optional<File> file = fileRepository.findById(fileId);
         fileStore.deleteFile(file.orElse(null));
         fileRepository.deleteById(fileId);
+    }
+
+    public List<File> findFiles(List<Long> fileIds) {
+        return fileRepository.findAllById(fileIds);
     }
 }
 

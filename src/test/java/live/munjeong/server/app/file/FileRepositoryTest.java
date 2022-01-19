@@ -2,8 +2,6 @@ package live.munjeong.server.app.file;
 
 import live.munjeong.server.app.config.BaseEntityAuditorAware;
 import live.munjeong.server.app.cons.Constant;
-import live.munjeong.server.app.user.LoginVO;
-import live.munjeong.server.app.util.SessionUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,14 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.HttpSessionRequiredException;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 @EnableJpaAuditing
 @DataJpaTest
 @Import(BaseEntityAuditorAware.class)

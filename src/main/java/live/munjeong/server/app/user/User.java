@@ -1,6 +1,6 @@
 package live.munjeong.server.app.user;
 
-import live.munjeong.server.app.entity.BaseEntity;
+import live.munjeong.server.app.common.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

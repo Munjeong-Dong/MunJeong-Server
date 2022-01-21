@@ -1,4 +1,4 @@
-package live.munjeong.server.app.common;
+package live.munjeong.server.app.domain.entity;
 
 import lombok.Getter;
 import lombok.Setter;

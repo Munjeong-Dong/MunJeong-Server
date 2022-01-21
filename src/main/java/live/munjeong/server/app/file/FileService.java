@@ -1,5 +1,6 @@
 package live.munjeong.server.app.file;
 
+import live.munjeong.server.app.domain.File;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

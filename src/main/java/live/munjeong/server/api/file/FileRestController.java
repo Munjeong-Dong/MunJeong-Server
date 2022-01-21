@@ -1,7 +1,7 @@
-package live.munjeong.server.api;
+package live.munjeong.server.api.file;
 
 import live.munjeong.server.api.common.Result;
-import live.munjeong.server.app.file.File;
+import live.munjeong.server.app.domain.File;
 import live.munjeong.server.app.file.FileService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,11 +23,11 @@ public class FileRestController {
     private final FileService fileService;
 
     @PostMapping("/upload")
-    public Result fileUpload(@Valid UploadFileReq uploadFileReq) throws IOException {
+    public Result<List<File>> fileUpload(@Valid UploadFileReq uploadFileReq) throws IOException {
         log.debug("file upload size [{}]", uploadFileReq.getFiles().size());
         List<Long> uploadFileId = fileService.upload(uploadFileReq.getFiles());
         List<File> returnFiles = fileService.findFiles(uploadFileId);
-        return new Result(returnFiles);
+        return new Result<>(returnFiles);
     }
 
     @AllArgsConstructor
@@ -37,5 +37,9 @@ public class FileRestController {
         private List<MultipartFile> files;
     }
 
+    @AllArgsConstructor
+    @Data
+    static class UploadFileRes {
 
+    }
 }

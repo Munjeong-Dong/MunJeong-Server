@@ -1,6 +1,9 @@
-package live.munjeong.server.app.file;
+package live.munjeong.server.app.domain;
 
-import live.munjeong.server.app.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import live.munjeong.server.app.domain.entity.BaseEntity;
+import live.munjeong.server.app.file.FileType;
+import live.munjeong.server.app.file.UploadFile;
 import live.munjeong.server.app.util.DirectoryPathUtil;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +13,9 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.UUID;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.*;
 
 @Setter
 @Getter
@@ -47,6 +53,11 @@ public class File extends BaseEntity {
 
     //파일 사이즈
     private Long size;
+
+    @JsonIgnore
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "feed_id")
+    private Feed feed;
 
     public File(String originNm, long size) {
         this.originNm = originNm;

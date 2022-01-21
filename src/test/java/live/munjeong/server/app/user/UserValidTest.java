@@ -1,24 +1,14 @@
 package live.munjeong.server.app.user;
 
-import live.munjeong.server.app.file.valid.FileExtensionValidator;
+import live.munjeong.server.app.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.persistence.Column;
 import javax.validation.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserValidTest {
 
@@ -65,5 +55,31 @@ class UserValidTest {
 
         // then
         Assertions.assertThat(violations.size()).isEqualTo(1);
+    }
+
+    /**
+     * 유저 validation 테스트
+     */
+    @Test
+    @DisplayName("유저 validation 전화번호 empty")
+    void userValidPhoneIsNull() {
+        // given
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        User phoneNullUser = new User();
+        phoneNullUser.setBirthday(LocalDate.of(1989,3,27));
+        phoneNullUser.setEmail("test@gmail.com");
+
+        User phoneEmptyUser = new User();
+        phoneEmptyUser.setPhone("");
+        phoneEmptyUser.setEmail("test2@gmail.com");
+
+        // when
+        Set<ConstraintViolation<User>> violation1 = validator.validate(phoneNullUser);
+        Set<ConstraintViolation<User>> violation2 = validator.validate(phoneEmptyUser);
+
+        // then
+        Assertions.assertThat(violation1.size()).isEqualTo(0);
+        Assertions.assertThat(violation2.size()).isEqualTo(1);
     }
 }

@@ -21,6 +21,7 @@ public class ErrorResponse {
     // 비즈니스에서 사용할 에러 코드이다.
     private ErrorCode code;
 
+    @Getter
     static class FieldError {
         private String field;
         private String value;

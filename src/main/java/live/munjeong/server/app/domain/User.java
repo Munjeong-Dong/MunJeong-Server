@@ -1,6 +1,7 @@
-package live.munjeong.server.app.user;
+package live.munjeong.server.app.domain;
 
-import live.munjeong.server.app.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import live.munjeong.server.app.domain.entity.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

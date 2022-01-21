@@ -1,9 +1,8 @@
-package live.munjeong.server.app.file.valid;
+package live.munjeong.server.app.common.valid;
 
-import live.munjeong.server.app.file.UploadFile;
+import live.munjeong.server.app.common.valid.FileExtension;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;

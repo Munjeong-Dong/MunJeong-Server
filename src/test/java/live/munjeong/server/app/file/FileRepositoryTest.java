@@ -1,7 +1,8 @@
 package live.munjeong.server.app.file;
 
-import live.munjeong.server.app.config.BaseEntityAuditorAware;
 import live.munjeong.server.app.cons.Constant;
+import live.munjeong.server.app.domain.File;
+import live.munjeong.server.config.TestConfig;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,13 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 
-@EnableJpaAuditing
+@TestPropertySource(properties = "spring.main.allow-bean-definition-overriding=true")
+@Import(TestConfig.class)
 @DataJpaTest
-@Import(BaseEntityAuditorAware.class)
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 class FileRepositoryTest {
     @Autowired

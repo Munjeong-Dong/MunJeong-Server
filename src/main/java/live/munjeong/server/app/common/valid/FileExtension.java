@@ -1,4 +1,4 @@
-package live.munjeong.server.app.file.valid;
+package live.munjeong.server.app.common.valid;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,6 +1,6 @@
 package live.munjeong.server.app.file;
 
-import live.munjeong.server.app.file.valid.FileExtension;
+import live.munjeong.server.app.common.valid.FileExtension;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

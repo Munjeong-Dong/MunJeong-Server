@@ -1,6 +1,7 @@
 package live.munjeong.server.app.user;
 
 import live.munjeong.server.app.domain.User;
+import live.munjeong.server.app.exception.NonSearchUserException;
 import live.munjeong.server.app.user.request.CreateUserReq;
 import live.munjeong.server.app.user.search.UserSearch;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,9 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public Long saveUser(CreateUserReq userReq) {
-        log.debug("saveUser userReq [{}]", userReq);
-        User user = userRepository.save(userReq.createUser());
-        return user.getId();
+    public Long saveUser(User user) {
+        log.debug("saveUser user [{}]", user);
+        return userRepository.save(user).getId();
     }
 
     public void deleteUser(Long userId) {
@@ -33,5 +33,13 @@ public class UserService {
             return userRepository.findAllByNmContaining(userSearch.getSearchNm(), pageRequest);
         }
         return userRepository.findAll(pageRequest);
+    }
+
+    public User findUser(Long userId) throws NonSearchUserException {
+        return userRepository.findById(userId).orElseThrow(NonSearchUserException::new);
+    }
+
+    public User loginUser(String email, String pw) throws NonSearchUserException {
+        return userRepository.findUserByEmailAndPw(email, pw).orElseThrow(NonSearchUserException::new);
     }
 }
